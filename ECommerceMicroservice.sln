@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36401.2 d17.14
+VisualStudioVersion = 17.14.36401.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceMicroservice.Core", "ECommerceMicroservice.Core\ECommerceMicroservice.Core.csproj", "{0C563841-6EE2-48D8-8E7F-335F5B5FEFF7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceMicroservice.Infrastructure", "ECommerceMicroservice.Infrastructure\ECommerceMicroservice.Infrastructure.csproj", "{96E186A5-C97C-4D16-AC3E-48E8DF96330F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceMicroservice.Api", "ECommerceMicroservice.Api\ECommerceMicroservice.Api.csproj", "{DC3A8B0B-F5C1-4C94-A83C-FBD5D09DDA1B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DesingChoises", "DesingChoises", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		DesignChoices.md = DesignChoices.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
