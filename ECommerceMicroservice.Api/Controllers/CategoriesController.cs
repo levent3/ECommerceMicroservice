@@ -19,10 +19,15 @@ namespace ECommerceMicroservice.Api.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCategories()
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllCategories()
         {
             var categories = await _categoryRepository.GetAllAsync();
-            return Ok(categories);
+            var categoryDtos = categories.Select(c => new CategoryDto
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
+            return Ok(categoryDtos);
         }
 
 
