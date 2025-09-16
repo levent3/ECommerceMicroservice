@@ -32,7 +32,7 @@ namespace ECommerceMicroservice.Api.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
+        public async Task<ActionResult<CategoryDto>> GetCategory(int id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
 
@@ -40,8 +40,16 @@ namespace ECommerceMicroservice.Api.Controllers
             {
                 return NotFound();
             }
+            // Category entity nesnesini CategoryDto'ya dönüştürüyoruz
+            var categoryDto = new CategoryDto
+            {
+                Id = category.Id,
+                Name = category.Name
+            };
 
-            return category;
+            return categoryDto;
+
+           
         }
         [HttpPost]
         public async Task<ActionResult<Category>> CreateCategory(CreateCategoryDto categoryDto)
@@ -55,15 +63,22 @@ namespace ECommerceMicroservice.Api.Controllers
             return CreatedAtAction("GetCategory", new { id = category.Id }, category);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(int id, Category category)
+        public async Task<IActionResult> PutCategory(int id, [FromBody] CreateCategoryDto categoryDto)
         {
-            if (id != category.Id)
+
+            var existingCategory = await _categoryRepository.GetByIdAsync(id);
+            if (existingCategory == null)
             {
-                return BadRequest();
+                return NotFound($"ID'si {id} olan kategori bulunamadı.");
             }
 
-            await _categoryRepository.UpdateAsync(category);
+            // DTO'dan gelen veriyi mevcut entity nesnesine eşle
+            existingCategory.Name = categoryDto.Name;
+
+            await _categoryRepository.UpdateAsync(existingCategory);
+
             return NoContent();
+         
         }
 
         [HttpDelete("{id}")]
