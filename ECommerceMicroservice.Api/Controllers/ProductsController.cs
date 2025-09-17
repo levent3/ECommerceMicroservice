@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerceMicroservice.Api.Controllers
 {
+    /// <summary>
+    /// Ürünler yönetimi için kullanılan API endpoint'lerini içerir.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -24,7 +27,13 @@ namespace ECommerceMicroservice.Api.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Sistemdeki tüm ürünleri listeler.
+        /// </summary>
+        /// <returns>Tüm ürünlerin listesi.</returns>
+        /// <response code="200">Ürünler başarıyla listelendi.</response>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts()
         {
             var products = await _productRepository.GetAllAsync();
@@ -35,7 +44,16 @@ namespace ECommerceMicroservice.Api.Controllers
             return Ok(productDtos);
         }
 
-        [HttpGet("{id}")]       
+        /// <summary>
+        /// Belirtilen ID'ye sahip bir ürünü getirir.
+        /// </summary>
+        /// <param name="id">Ürünün ID'si.</param>
+        /// <returns>Belirtilen Ürün.</returns>
+        /// <response code="200">Ürün başarıyla bulundu.</response>
+        /// <response code="404">Belirtilen ID'ye sahip ürün bulunamadı.</response>
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
@@ -51,8 +69,16 @@ namespace ECommerceMicroservice.Api.Controllers
             return productDto;
         }
 
-        // POST: api/products
+        /// <summary>
+        /// Yeni bir ürün oluşturur.
+        /// </summary>
+        /// <param name="productDto">Oluşturulacak ürünün verileri.</param>
+        /// <returns>Oluşturulan ürün.</returns>
+        /// <response code="201">Ürün başarıyla oluşturuldu.</response>
+        /// <response code="400">Geçersiz veri girişi.</response>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ProductDto>> PostProduct(CreateProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
